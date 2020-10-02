@@ -7,24 +7,37 @@ const Sheet = require('./sheet')
 const fetch = require('node-fetch');
 
 (async function() {
-  const sheet = new Sheet();
-
-  await sheet.load();
-
-  const res = await fetch('https://jobs.github.com/positions.json?description=python&location=new+york')
+  
+  const res = await fetch('https://jobs.github.com/positions.json?description=react&location=remote')
   // console.log(res);
   const json = await res.json();
-  console.log(json);
+  // console.log({json});
 
-  // console.log(doc.title);
-  // await doc.updateProperties({ title: 'renamed doc' });
+  // map field in array to rows:
   
-  // const sheet = doc.sheetsByIndex[0]; // or use doc.sheetsById[id]
-
-  // await sheet.addRows([
-  // { title: 'UX design', location: 'Paris' },
-  // { title: 'Tech lead', location: 'Oslo' },
-  // ]);
+  const rows = json.map(job => {
+    return {
+      company: job.company,
+      title: job.title,
+      location: job.location,
+      date: job.created_at,
+      url: job.url,
+    }
+  })
+  
+  const sheet = new Sheet();
+  await sheet.load();
+  
+  await sheet.addRows(rows);
 
 })()
- 
+
+// console.log(doc.title);
+// await doc.updateProperties({ title: 'renamed doc' });
+
+// const sheet = doc.sheetsByIndex[0]; // or use doc.sheetsById[id]
+
+// await sheet.addRows([
+// { title: 'UX design', location: 'Paris' },
+// { title: 'Tech lead', location: 'Oslo' },
+// ]);

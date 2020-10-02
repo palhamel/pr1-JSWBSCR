@@ -9,7 +9,8 @@ module.exports = class Sheet {
   async load() {
     // load directly from json file if not in secure environment
     await this.doc.useServiceAccountAuth(require("./credentials.json"));
-    await this.doc.loadInfo(); // loads document properties and worksheets
+    // loads document properties and worksheets
+    await this.doc.loadInfo(); 
   }
   async addRows(rows) {
     const sheet = this.doc.sheetsByIndex[0]; 
