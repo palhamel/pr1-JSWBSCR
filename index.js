@@ -23,9 +23,7 @@ async function scrapePage(index) {
       url: job.url,
     }
   })
-
   return rows;
-
 }
 
 
@@ -42,12 +40,25 @@ async function scrapePage(index) {
   }
   console.log('total rows new length', rows.length);
 
+  // Here:
 
-  // This will run fill google doc:
+  // TODO: Sort the rows Array based on date - check sort method/function
 
-  // const sheet = new Sheet();
-  // await sheet.load();
-  // await sheet.addRows(rows);
+  // TODO: Filter rows Array for React or JavaScript jobs and insert in a new Array before Sheet - check filter method/function
+  // check filter and include, filter? "js".includes("javascript") => 
+
+
+
+
+
+
+  // This will fill google doc:
+  const sheet = new Sheet();
+  await sheet.load();
+  await sheet.addRows(rows);
+
+  console.log('rows sent to sheet ✅');
+
 
 })()
 
