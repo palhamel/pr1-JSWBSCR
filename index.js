@@ -6,15 +6,14 @@
 const Sheet = require('./sheet')
 const fetch = require('node-fetch');
 
-(async function() {
-  
-  const res = await fetch('https://jobs.github.com/positions.json?description=react&location=remote')
-  // console.log(res);
+// TODO: check all pages and combine in one array
+
+async function scrapePage(index) {
+  const res = await fetch(`https://jobs.github.com/positions.json?page=${index}&search=code`)
   const json = await res.json();
   // console.log({json});
 
   // map field in array to rows:
-  
   const rows = json.map(job => {
     return {
       company: job.company,
@@ -24,13 +23,74 @@ const fetch = require('node-fetch');
       url: job.url,
     }
   })
+
+  return rows;
+
+}
+
+
+(async function() {
   
-  const sheet = new Sheet();
-  await sheet.load();
-  
-  await sheet.addRows(rows);
+  let index = 1;
+  let rows = [];
+  while(true) {
+    const newRows = await scrapePage(index);
+    console.log('newRows length', newRows.length);
+    if (newRows.length === 0) break;
+    rows = rows.concat(newRows);
+    index++;
+  }
+  console.log('total rows new length', rows.length);
+
+
+  // This will run fill google doc:
+
+  // const sheet = new Sheet();
+  // await sheet.load();
+  // await sheet.addRows(rows);
 
 })()
+
+
+
+// ------------------------------------
+
+/* Working code:
+
+(async function() {
+  
+  // const res = await fetch('https://jobs.github.com/positions.json?search=code')
+  // const res = await fetch('https://jobs.github.com/positions.json?location=remote')
+  const res = await fetch('https://jobs.github.com/positions.json?page=2&search=code')
+
+  // console.log(res);
+
+  const json = await res.json();
+  // console.log({json});
+
+  // map field in array to rows:
+  const rows = json.map(job => {
+    return {
+      company: job.company,
+      title: job.title,
+      location: job.location,
+      date: job.created_at,
+      url: job.url,
+    }
+  })
+  // console.log(rows)
+  console.log(rows.length, 'length')
+
+  // This will run fill google doc:
+
+  // const sheet = new Sheet();
+  // await sheet.load();
+  // await sheet.addRows(rows);
+
+})()
+
+
+*/
 
 // console.log(doc.title);
 // await doc.updateProperties({ title: 'renamed doc' });
