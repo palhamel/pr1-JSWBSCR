@@ -10,6 +10,7 @@ const fetch = require('node-fetch');
 
 async function scrapePage(index) {
   const res = await fetch(`https://jobs.github.com/positions.json?page=${index}&search=code`)
+  // const res = await fetch(`https://jobs.github.com/positions.json?page=${index}&search=code&location=Remote`)
   const json = await res.json();
   // console.log({json});
 
@@ -40,24 +41,47 @@ async function scrapePage(index) {
   }
   console.log('total rows new length', rows.length);
 
-  // Here:
+  // --------------------------
+
+  // console.log(rows);
+
+
+  // https://www.digitalocean.com/community/tutorials/js-array-search-methods
+
+  const testMyArr = ["thick scales", 80, "tail", "rounded snout"];
+  console.log(testMyArr.filter(item => item.length > 10));
 
   // TODO: Sort the rows Array based on date - check sort method/function
 
+  // const sortedRows = rows.sort((a, b) => b.date - a.date)
+
+// console.log(sortedRows);
+
+  // const sortRows = () => {
+  //   console.log('sorted array:', rows.sort());
+  // }
+  // sortRows();
+
+  // --------------------------
   // TODO: Filter rows Array for React or JavaScript jobs and insert in a new Array before Sheet - check filter method/function
   // check filter and include, filter? "js".includes("javascript") => 
+  // console.log(rows.includes('Remote'));
 
 
+  // let items = rows.filter(item => item.titel.find('Senior'));
+  // console.log(items);
 
 
-
+  // --------------------------
 
   // This will fill google doc:
-  const sheet = new Sheet();
-  await sheet.load();
-  await sheet.addRows(rows);
 
-  console.log('rows sent to sheet ✅');
+  // const sheet = new Sheet();
+  // await sheet.load();
+  // await sheet.addRows(rows);
+  // console.log('rows sent to sheet ✅');
+
+    // --------------------------
 
 
 })()
