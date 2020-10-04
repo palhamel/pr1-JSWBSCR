@@ -45,11 +45,23 @@ async function scrapePage(index) {
 
   // console.log(rows);
 
-
   // https://www.digitalocean.com/community/tutorials/js-array-search-methods
 
-  const testMyArr = ["thick scales", 80, "tail", "rounded snout"];
-  console.log(testMyArr.filter(item => item.length > 10));
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+
+
+  // const testMyArr = ["thick scales", 80, "tail", "rounded snout"];
+  // console.log(testMyArr.filter(item => item.length > 10));
+
+  const filterAllRemote = rows.filter(item => item.location == 'Remote')
+  // console.log('filterOne:', filterAllRemote);
+
+  const filterTwo = filterAllRemote.filter(item => item.title == 'React Developer')
+  // console.log('filterTwo:', filterTwo);
+
+  const filterAllAtOnce = rows.filter(item => item.location == 'Remote').filter(item => item.title == 'React Developer');
+  console.log('filterAllAtOnce:', filterAllAtOnce);
+
 
   // TODO: Sort the rows Array based on date - check sort method/function
 
@@ -68,17 +80,20 @@ async function scrapePage(index) {
   // console.log(rows.includes('Remote'));
 
 
-  // let items = rows.filter(item => item.titel.find('Senior'));
+  // let items = rows.filter(item => item.title == 'Senior Growth Engineer');
   // console.log(items);
 
 
   // --------------------------
 
-  // This will fill google doc:
+  // NOTE: This will fill google doc:
 
-  // const sheet = new Sheet();
-  // await sheet.load();
+  const sheet = new Sheet();
+  await sheet.load();
+  await sheet.addRows(filterAllRemote);
+
   // await sheet.addRows(rows);
+
   // console.log('rows sent to sheet ✅');
 
     // --------------------------
