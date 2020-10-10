@@ -17,8 +17,6 @@ module.exports = class Sheet {
     await sheet.addRows(rows);
   }
 }
-
-
 // (async function () {
 //   const sheet = new Sheet();
 //   await sheet.load();

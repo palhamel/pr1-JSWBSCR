@@ -1,19 +1,14 @@
 // const { GoogleSpreadsheet } = require('google-spreadsheet');
- 
 // spreadsheet key is the long id in the sheets URL
 // const doc = new GoogleSpreadsheet('1CCks0Cuqqo8Iea9uJXMT-6Jgrdzg0Yf31WSQgD3yJus');
-
 const Sheet = require('./sheet')
 const fetch = require('node-fetch');
-
-// TODO: check all pages and combine in one array
 
 async function scrapePage(index) {
   const res = await fetch(`https://jobs.github.com/positions.json?page=${index}&search=code`)
   // const res = await fetch(`https://jobs.github.com/positions.json?page=${index}&search=code&location=Remote`)
   const json = await res.json();
   // console.log({json});
-
   // map field in array to rows:
   const rows = json.map(job => {
     return {
@@ -27,9 +22,7 @@ async function scrapePage(index) {
   return rows;
 }
 
-
 (async function() {
-  
   let index = 1;
   let rows = [];
   while(true) {
@@ -42,14 +35,9 @@ async function scrapePage(index) {
   console.log('total rows new length', rows.length);
 
   // --------------------------
-
   // console.log(rows);
-
   // https://www.digitalocean.com/community/tutorials/js-array-search-methods
-
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
-
-
   // const testMyArr = ["thick scales", 80, "tail", "rounded snout"];
   // console.log(testMyArr.filter(item => item.length > 10));
 
@@ -62,30 +50,22 @@ async function scrapePage(index) {
   const filterAllAtOnce = rows.filter(item => item.location == 'Remote').filter(item => item.title == 'React Developer');
   console.log('filterAllAtOnce:', filterAllAtOnce);
 
-
   // TODO: Sort the rows Array based on date - check sort method/function
-
   // const sortedRows = rows.sort((a, b) => b.date - a.date)
-
-// console.log(sortedRows);
-
+  // console.log(sortedRows);
   // const sortRows = () => {
   //   console.log('sorted array:', rows.sort());
   // }
   // sortRows();
-
   // --------------------------
   // TODO: Filter rows Array for React or JavaScript jobs and insert in a new Array before Sheet - check filter method/function
   // check filter and include, filter? "js".includes("javascript") => 
   // console.log(rows.includes('Remote'));
 
-
   // let items = rows.filter(item => item.title == 'Senior Growth Engineer');
   // console.log(items);
 
-
   // --------------------------
-
   // NOTE: This will fill google doc:
 
   const sheet = new Sheet();
@@ -93,20 +73,11 @@ async function scrapePage(index) {
   await sheet.addRows(filterAllRemote);
 
   // await sheet.addRows(rows);
-
   // console.log('rows sent to sheet ✅');
-
-    // --------------------------
-
-
 })()
 
-
-
 // ------------------------------------
-
-/* Working code:
-
+/* Old working code:
 (async function() {
   
   // const res = await fetch('https://jobs.github.com/positions.json?search=code')
